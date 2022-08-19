@@ -1,8 +1,6 @@
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
 from pydantic import (
-    AmqpDsn,
-    AnyHttpUrl,
     BaseSettings,
     PostgresDsn,
     validator,
@@ -27,7 +25,7 @@ class Settings(BaseSettings):
         if isinstance(value, str):
             return value
         
-        x = PostgresDsn.build(
+        return PostgresDsn.build(
             scheme='postgresql+asyncpg',
             user=values.get('DB_USER'),
             password=values.get('DB_PASSWORD'),
@@ -35,7 +33,6 @@ class Settings(BaseSettings):
             port=values.get('DB_PORT'),
             path='/{0}'.format(values.get('DB_NAME')),
         )
-        return x
 
     class Config(object):
         case_sensitive = True

@@ -1,8 +1,8 @@
 """add user table
 
-Revision ID: bdd124a7cb66
+Revision ID: 7afd46f09371
 Revises: 
-Create Date: 2022-08-07 12:45:24.440184
+Create Date: 2022-08-18 15:12:03.442596
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'bdd124a7cb66'
+revision = '7afd46f09371'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,6 +21,8 @@ def upgrade() -> None:
     op.create_table('user',
     sa.Column('id', postgresql.UUID(as_uuid=True), server_default=sa.text('uuid_generate_v4()'), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
+    sa.Column('password', sa.String(length=255), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
